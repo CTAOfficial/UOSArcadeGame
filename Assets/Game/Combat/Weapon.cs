@@ -21,15 +21,8 @@ public class Weapon : MonoBehaviour
 
     public Projectile Attack()
     {
-        Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
+        Projectile proj = Instantiate(projectile, firePoint.position, firePoint.rotation).GetComponent<Projectile>();
         proj.Initialize(this);
-        return proj;
-    }
-    public Projectile EnemyAttack(Quaternion rotation)
-    {
-        Projectile proj = Attack();
-        proj.enemybullet = true;
-        proj.transform.rotation = rotation;
         return proj;
     }
 }

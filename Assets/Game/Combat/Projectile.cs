@@ -7,7 +7,6 @@ public class Projectile : MonoBehaviour
     public int damage;
     public float speed;
     public Rigidbody2D rb;
-    public bool enemybullet = false;
     public IDamageable Creator;
 
 
@@ -21,14 +20,7 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemybullet)
-        {
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-        else
-        {
-            rb.linearVelocity = new(transform.position.x * speed, transform.position.y * speed);
-        }
+        transform.position += transform.right * speed * Time.deltaTime;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
