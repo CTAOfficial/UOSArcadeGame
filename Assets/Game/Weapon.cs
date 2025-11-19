@@ -23,15 +23,12 @@ public class Weapon : MonoBehaviour
     {
         Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
         proj.Initialize(firePoint.transform);
-        //rotation.z = 180f;
-        //proj.transform.rotation = rotation;
     }
     public void EnemyAttack(Quaternion rotation)
     {
         Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
         proj.Initialize(firePoint.transform);
         proj.enemybullet = true;
-        //rotation.z = 180f;
         proj.transform.rotation = rotation;
     }
 }

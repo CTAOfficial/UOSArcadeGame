@@ -23,10 +23,10 @@ namespace Blazers.Enemies
         // Update is called once per frame
         void Update()
         {
-            Debug.DrawLine(transform.forward, Vector3.one);
-
             if (CheckTarget())
             {
+                //LookAtTarget();
+
                 float distance = Vector3.Distance(transform.position, Target.position);
                 if (distance > Range)
                 {
@@ -52,14 +52,7 @@ namespace Blazers.Enemies
             if ((weapon)&&(canFire))
             {
                 var vec = Target.position - transform.position;
-                Quaternion lookRotation = Quaternion.LookRotation(vec);
-              
-
-                // weapon.transform.RotateAround(transform.position, );
-
-                //float angle = Mathf.Atan2(Target.position.y - transform.position.y, Target.position.x - transform.position.x) * Mathf.Rad2Deg;
-                //Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-                //transform.rotation = targetRotation; //Quaternion.RotateTowards(transform.rotation, targetRotation, 100);
+                Quaternion lookRotation = Quaternion.LookRotation(vec);              
 
                 weapon.EnemyAttack(lookRotation);
                 canFire = false;

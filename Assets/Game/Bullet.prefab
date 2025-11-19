@@ -107,8 +107,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   damage: 1
-  speed: 0.5
+  speed: 5
   rb: {fileID: 2002497520468446896}
+  enemybullet: 0
 --- !u!50 &2002497520468446896
 Rigidbody2D:
   serializedVersion: 5

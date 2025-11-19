@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shooter (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
+      propertyPath: _canBeDamaged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.41305017
@@ -376,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d52f7ae7173226d4a980c8e5f9c6a438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Blazers.LifeEntity
-  _health: 1
+  _health: 5
   _canBeDamaged: 1
 --- !u!212 &576951978
 SpriteRenderer:
@@ -586,6 +590,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &951137841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951137844}
+  - component: {fileID: 951137843}
+  - component: {fileID: 951137842}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &951137842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951137841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678b0c4795b43cb4da12b2042a6f1778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Blazers.Spawner
+  timer: {fileID: 951137843}
+  SpawnTime: 3
+  PrefabList: []
+  SpawnList: []
+  SpawnedObjects: []
+--- !u!114 &951137843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951137841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fc9092aeab64c45938d63b87ab8092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Blazers.Timer
+--- !u!4 &951137844
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951137841}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1832534049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -597,6 +663,10 @@ PrefabInstance:
     - target: {fileID: 3892712156484458183, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_Name
       value: Shooter (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
+      propertyPath: _canBeDamaged
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -770,6 +840,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
+      propertyPath: _canBeDamaged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.41305017
@@ -883,3 +957,4 @@ SceneRoots:
   - {fileID: 69747018}
   - {fileID: 2033076996}
   - {fileID: 1832534049}
+  - {fileID: 951137844}

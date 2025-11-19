@@ -11,7 +11,7 @@ namespace Blazers
         [SerializeField] int _health = 1;
 
         public bool CanBeDamaged { get => _canBeDamaged; private set => _canBeDamaged = value; }
-        [SerializeField] bool _canBeDamaged;
+        [SerializeField] bool _canBeDamaged = true;
 
         public event Action<LifeEntity> OnDeath;
 
