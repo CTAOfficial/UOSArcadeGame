@@ -131,10 +131,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shooter (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
-      propertyPath: _canBeDamaged
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.41305017
@@ -664,10 +660,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shooter (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
-      propertyPath: _canBeDamaged
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.41305
@@ -838,10 +830,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4874874532325100768, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7129222108163127602, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
-      propertyPath: _canBeDamaged
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8298570482684663615, guid: 7f17c9a37e5173d4b89cce04d64fb79e, type: 3}
