@@ -29,11 +29,9 @@ public class Projectile : MonoBehaviour
         {
             rb.linearVelocity = new(transform.position.x * speed, transform.position.y * speed);
         }
-      
-        
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IDamageable damageable) && damageable != Creator)
         {
@@ -44,15 +42,15 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Initialize(Transform transform)
-    {
-        //direction = transform.position;
-        transform.gameObject.TryGetComponent(out Creator);
-    }
-
     IEnumerator Cull()
     {
         yield return new WaitForSeconds(2.5f);
         Destroy(gameObject);
     }
+    public void Initialize(Weapon weapon)
+    {
+        //direction = transform.position;
+        weapon.User.TryGetComponent(out Creator);
+    }
+    
 }

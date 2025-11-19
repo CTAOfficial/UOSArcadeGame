@@ -19,16 +19,17 @@ public class Weapon : MonoBehaviour
         
     }
 
-    public void Attack()
+    public Projectile Attack()
     {
         Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
-        proj.Initialize(firePoint.transform);
+        proj.Initialize(this);
+        return proj;
     }
-    public void EnemyAttack(Quaternion rotation)
+    public Projectile EnemyAttack(Quaternion rotation)
     {
-        Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
-        proj.Initialize(firePoint.transform);
+        Projectile proj = Attack();
         proj.enemybullet = true;
         proj.transform.rotation = rotation;
+        return proj;
     }
 }
