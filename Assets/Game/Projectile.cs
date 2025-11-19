@@ -1,13 +1,13 @@
+using System.Collections;
 using Blazers.Combat;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Vector2 direction;
     public int damage;
     public float speed;
     public Rigidbody2D rb;
-
+    public bool enemybullet = false;
     public IDamageable Creator;
 
 
@@ -15,14 +15,22 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         if (!rb) { rb = GetComponent<Rigidbody2D>();}
+        StartCoroutine(Cull());
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        rb.linearVelocity = new(direction.x * speed, direction.y * speed);
-        //transform.position += (Vector3)direction * speed * Time.deltaTime;
+        if (enemybullet)
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
+        }
+        else
+        {
+            rb.linearVelocity = new(transform.position.x * speed, transform.position.y * speed);
+        }
+      
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,8 +46,13 @@ public class Projectile : MonoBehaviour
 
     public void Initialize(Transform transform)
     {
-        direction = transform.position;
-
+        //direction = transform.position;
         transform.gameObject.TryGetComponent(out Creator);
+    }
+
+    IEnumerator Cull()
+    {
+        yield return new WaitForSeconds(2.5f);
+        Destroy(gameObject);
     }
 }

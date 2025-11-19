@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Transform firePoint;
-    public GameObject tower;
-    public GameObject projectile;
+    public Weapon weapon;
 
     public float speed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (weapon && weapon.User != gameObject) { weapon.User = gameObject; }
     }
 
     // Update is called once per frame
@@ -21,19 +19,18 @@ public class Player : MonoBehaviour
         {
             Move(new(0, 0, 1), speed);
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             Move(new(0, 0, -1), speed);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Projectile proj = Instantiate(projectile, firePoint.position, Quaternion.identity).GetComponent<Projectile>();
-            proj.Initialize(transform);
+            weapon.Attack();
         }
     }
 
     void Move(Vector3 vector, float angle)
     {
-        transform.RotateAround(tower.transform.position, vector, angle * Time.deltaTime);
+        weapon.transform.RotateAround(transform.position, vector, angle * Time.deltaTime);
     }
 }

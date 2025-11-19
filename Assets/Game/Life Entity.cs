@@ -7,7 +7,8 @@ namespace Blazers
 {
     public class LifeEntity : MonoBehaviour, IDamageable, IKillable
     {
-        public int Health { get; private set; } = 1;
+        public int Health { get => _health; private set => _health = value; }
+        [SerializeField] int _health = 1;
 
         public bool CanBeDamaged { get => _canBeDamaged; private set => _canBeDamaged = value; }
         [SerializeField] bool _canBeDamaged;
@@ -45,7 +46,7 @@ namespace Blazers
 
         public void Kill(GameObject killer = null)
         {
-            throw new System.NotImplementedException();
+            Die();
         }
 
         void Die()
