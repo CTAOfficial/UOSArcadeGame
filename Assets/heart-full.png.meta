@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a750198ea321734419b936f32ece14f8
+guid: 8e61c3cf05bb1464087faee3d04dc5de
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7282892700170619612
-    second: Glorp_0
+      213: 6874854608603353070
+    second: heart-full_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Glorp_0
+      name: heart-full_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 64
-        height: 64
+        y: 1
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cda84fa0358021560800000000000000
-      internalID: 7282892700170619612
+      spriteID: eef824c87d3686f50800000000000000
+      internalID: 6874854608603353070
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Glorp_0: 7282892700170619612
+      heart-full_0: 6874854608603353070
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
