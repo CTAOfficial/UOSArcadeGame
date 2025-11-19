@@ -33,7 +33,7 @@ public class HeartContainer : MonoBehaviour
     {
         if (life.Health != Hearts.Count)
         {
-            int difference = life.Health - Hearts.Count;
+            int difference = Hearts.Count - life.Health;
             HeartState state;
 
             if (difference > life.Health)
@@ -45,9 +45,9 @@ public class HeartContainer : MonoBehaviour
                 state = HeartState.Lost;
             }
 
-            for (int i = 0; difference > i; i++)
+            for (int i = 1; i < difference; i++)
             {
-                UpdateHeart(i, state);
+                UpdateHeart(Hearts.Count - i, state);
             }
         }
     }
