@@ -13,6 +13,7 @@ namespace Blazers
         public bool CanBeDamaged { get => _canBeDamaged; private set => _canBeDamaged = value; }
         [SerializeField] bool _canBeDamaged = true;
 
+        public event Action<LifeEntity> OnDamaged;
         public event Action<LifeEntity> OnDeath;
 
 
@@ -40,6 +41,7 @@ namespace Blazers
         protected virtual void Damage(int damage)
         {
             Health -= damage;
+            OnDamaged?.Invoke(this);
 
             if (Health <= 0) { Die(); }
         }
