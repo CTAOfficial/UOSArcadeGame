@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   Life: {fileID: 113953646391581288}
   weapon: {fileID: 1801811537338675881}
-  rotationSpeed: 0
+  rotationSpeed: 150
 --- !u!1 &2517083464756244235
 GameObject:
   m_ObjectHideFlags: 0
