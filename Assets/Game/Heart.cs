@@ -29,10 +29,12 @@ namespace Blazers.UI
             {
                 case HeartState.Active:
                     //.. change image
+                    gameObject.SetActive(true);
                     break;
 
                 case HeartState.Lost:
                     //.. change image
+                    gameObject.SetActive(false);
                     break;
             }
         }
