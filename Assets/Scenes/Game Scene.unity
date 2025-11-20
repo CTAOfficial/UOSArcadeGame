@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000000
+  m_text: 0000000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22fc33eb1659ba04e8f476ff6ab4892f, type: 2}
   m_sharedMaterial: {fileID: -6312447095102992596, guid: 22fc33eb1659ba04e8f476ff6ab4892f, type: 2}
@@ -1764,7 +1764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000000
+  m_text: 0000000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 22fc33eb1659ba04e8f476ff6ab4892f, type: 2}
   m_sharedMaterial: {fileID: -6312447095102992596, guid: 22fc33eb1659ba04e8f476ff6ab4892f, type: 2}
@@ -3270,7 +3270,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: e8ffbee27ce2c3b4db7fc3e89ea312b2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
