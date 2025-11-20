@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+    public static event Action<Player> OnDeath;
+
     [Header("Life")]
     public LifeEntity Life;
     public SpriteRenderer hitCircle;
@@ -20,10 +23,12 @@ public class Player : MonoBehaviour
 
     bool IsFlashing;
 
-    public static event Action<Player> OnDeath;
 
     void Awake()
     {
+        if (Instance) { Destroy(gameObject); }
+        Instance = this;
+
         Life.IsPlayer = true;
 
         Life.OnDamaged += OnDamage;
@@ -37,6 +42,10 @@ public class Player : MonoBehaviour
     {
         HandleWeapon();
         HandleShield();
+    }
+    void OnDestroy()
+    {
+        Instance = null;
     }
 
     void HandleWeapon()

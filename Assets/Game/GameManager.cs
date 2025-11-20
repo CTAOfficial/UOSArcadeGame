@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance) { throw new InvalidOperationException(); }
+        if (Instance) { Destroy(gameObject); }
         Instance = this;
 
         LifeEntity.OnCreated += OnNewEntity;
@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour
 
     void EndGame(Player player)
     {
+        Player.OnDeath -= EndGame;
+
         OnGameEnd?.Invoke();
         //Instantiate(GameOverUI);
     }

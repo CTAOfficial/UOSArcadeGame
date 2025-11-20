@@ -58,6 +58,8 @@ namespace Glorp
         }
         void UpdateHeart(int index, HeartState state)
         {
+            if (index > Hearts.Count - 1) { return; }
+
             Hearts[index].State = state;
         }
 

@@ -11,6 +11,11 @@ namespace Glorp.UI
         {
             GameManager.OnGameEnd += () => Display(true);
         }
+        void OnDestroy()
+        {
+            GameManager.OnGameEnd -= () => Display(true);
+        }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
