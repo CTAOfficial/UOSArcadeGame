@@ -24,10 +24,12 @@ namespace Glorp
 
         float _timer;
         float _startTime;
+        bool isCounting;
 
         public IEnumerator StartTimer()
         {
             enabled = true;
+            isCounting = true;
             _timer = Time;
             yield return new WaitForSeconds(_timer);
             EndTimer();
@@ -48,7 +50,11 @@ namespace Glorp
 
         public void ForceStop()
         {
-            StopCoroutine(StartTimer());
+            if (isCounting)
+            {
+                StopCoroutine(StartTimer());
+                isCounting = false;
+            }
             Resets = false;
             enabled = false;
         }

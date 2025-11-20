@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Glorp;
+using Glorp.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,18 +23,20 @@ public class GameManager : MonoBehaviour
         }
     }
     [SerializeField] static int _score;
-    //[SerializeField] GameObject GameOverUI;
+    [SerializeField] GameObject GameOverUI;
+    List<LifeEntity> subscribedEvents = new();
 
     void Awake()
     {
         if (Instance) { Destroy(gameObject); }
         Instance = this;
 
+        DontDestroyOnLoad(gameObject);
+
+        GameOverUI = Resources.Load<GameObject>("UI/Game Over UI");
+
         LifeEntity.OnCreated += OnNewEntity;
         Player.OnDeath += EndGame;
-
-        DontDestroyOnLoad(this);
-
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,25 +45,35 @@ public class GameManager : MonoBehaviour
     }
     void OnDestroy()
     {
-        LifeEntity.OnCreated -= OnNewEntity;
-        Player.OnDeath -= EndGame;
+        //LifeEntity.OnCreated -= OnNewEntity;
+        //Player.OnDeath -= EndGame;
+        for (int i = 0; subscribedEvents.Count > 0; i++)
+        {
+            subscribedEvents[i].OnDeath -= HandleDeath;
+            subscribedEvents.RemoveAt(i);
+            i--;
+        }
     }
 
 
     void OnNewEntity(LifeEntity entity)
     {
-        if (entity.IsPlayer) { return; }
-
         entity.OnDeath += HandleDeath;
+        subscribedEvents.Add(entity);
     }
 
     private void HandleDeath(LifeEntity entity)
     {
         entity.OnDeath -= HandleDeath;
+        subscribedEvents.Remove(entity);
 
-        Score += entity.ScoreValue;
         AudioSource.resource = entity.DeathSound;
         AudioSource.Play();
+
+        if (!entity.IsPlayer)
+        {
+            Score += entity.ScoreValue;
+        }
     }
 
     public void ResetLevel()
@@ -69,10 +83,8 @@ public class GameManager : MonoBehaviour
 
     void EndGame(Player player)
     {
-        Player.OnDeath -= EndGame;
-
         OnGameEnd?.Invoke();
-        //Instantiate(GameOverUI);
+        Instantiate(GameOverUI).GetComponent<GameOverUI>().Display(true);
     }
     
 }

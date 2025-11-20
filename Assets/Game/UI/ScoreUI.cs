@@ -10,13 +10,17 @@ public class ScoreUI : MonoBehaviour
 
     void Awake()
     {
-        GameManager.OnScore += (score) => StartCoroutine(UpdateScore(score));
+        GameManager.OnScore += Flash;
     }
     void OnDestroy()
     {
-        GameManager.OnScore -= (score) => StartCoroutine(UpdateScore(score));
+        GameManager.OnScore -= Flash;
     }
 
+    void Flash(int score)
+    {
+        StartCoroutine(UpdateScore(score));
+    }
     IEnumerator UpdateScore(int score)
     {
         ScoreText.text = string.Format("{0:0000000}", score);

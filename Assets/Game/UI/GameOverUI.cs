@@ -7,17 +7,8 @@ namespace Glorp.UI
 {
     public class GameOverUI : MonoBehaviour
     {
+        public bool StartHidden { get; set; }
         [SerializeField] TextMeshProUGUI ScoreText;
-        [SerializeField] bool StartHidden = true;
-
-        void Awake()
-        {
-            GameManager.OnGameEnd += () => Display(true);
-        }
-        void OnDestroy()
-        {
-            GameManager.OnGameEnd -= () => Display(true);
-        }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()

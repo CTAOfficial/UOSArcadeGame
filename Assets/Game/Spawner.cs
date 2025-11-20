@@ -48,6 +48,12 @@ namespace Glorp
 
             StartTimer();
         }
+        void OnDestroy()
+        {
+            GameManager.OnGameEnd -= Shutdown;
+            spawnTimer.OnTime -= SpawnRandom;
+            if (difficultyTimer) { difficultyTimer.OnTime -= IncreaseDifficulty; }
+        }
 
         void IncreaseDifficulty()
         {
@@ -58,8 +64,8 @@ namespace Glorp
 
         private void Shutdown()
         {
-            spawnTimer.ForceStop();
             gameObject.SetActive(false);
+            spawnTimer.ForceStop();
         }
 
         GameObject GetRandomPrefab()
