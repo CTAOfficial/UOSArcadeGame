@@ -9,8 +9,19 @@ public class GameManager : MonoBehaviour
     public static Action OnGameEnd;
     public static Action<int> OnScore;
 
-    [SerializeField] int score;
-    [SerializeField] GameObject GameOverUI;
+    public AudioSource AudioSource;
+
+    public static int Score
+    {
+        get => _score;
+        set
+        {
+            _score = value;
+            OnScore?.Invoke(Score);
+        }
+    }
+    [SerializeField] static int _score;
+    //[SerializeField] GameObject GameOverUI;
 
     void Awake()
     {
@@ -20,11 +31,18 @@ public class GameManager : MonoBehaviour
         LifeEntity.OnCreated += OnNewEntity;
         Player.OnDeath += EndGame;
 
+        DontDestroyOnLoad(this);
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
+    }
+    void OnDestroy()
+    {
+        LifeEntity.OnCreated -= OnNewEntity;
+        Player.OnDeath -= EndGame;
     }
 
 
@@ -37,15 +55,22 @@ public class GameManager : MonoBehaviour
 
     private void HandleDeath(LifeEntity entity)
     {
-        score += entity.ScoreValue; 
-        OnScore?.Invoke(score);
+        entity.OnDeath -= HandleDeath;
+
+        Score += entity.ScoreValue;
+        AudioSource.resource = entity.DeathSound;
+        AudioSource.Play();
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     void EndGame(Player player)
     {
         OnGameEnd?.Invoke();
         //Instantiate(GameOverUI);
-        GameOverUI.SetActive(true);
     }
     
 }

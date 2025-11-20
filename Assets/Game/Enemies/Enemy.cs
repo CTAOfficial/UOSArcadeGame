@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -13,7 +14,6 @@ namespace Glorp.Enemies
         public float fireCooldown;
         public float Range;
         public float Speed;
-        public bool canFire;
         public float rotationSpeed = 5;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,6 +21,12 @@ namespace Glorp.Enemies
         {
             Target = FindFirstObjectByType<Player>().transform;
             OnCreated?.Invoke(this);
+            GameManager.OnGameEnd += Die;
+
+            if (weapon)
+            {
+                weapon.cooldown = fireCooldown;
+            }
         }
 
         // Update is called once per frame
@@ -39,7 +45,7 @@ namespace Glorp.Enemies
                     return;
                 }
 
-                if (CheckTargetIsInView() && canFire) { TryAttack(); }
+                if (CheckTargetIsInView()) { TryAttack(); }
                 
             }
         }
@@ -85,18 +91,12 @@ namespace Glorp.Enemies
         }
         void TryAttack()
         {
-            if (weapon && canFire)
+            if (weapon && weapon.CanFire)
             {
-                weapon.Attack();
-                canFire = false;
-                StartCoroutine(Cooldown());
+                weapon.TryAttack();
             }
         }
-        IEnumerator Cooldown()
-        {
-            yield return new WaitForSeconds(fireCooldown);
-            canFire = true;
-        }
+
 
         private void OnDrawGizmosSelected()
         {

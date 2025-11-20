@@ -12,14 +12,20 @@ namespace Glorp
     {
         public event Action<GameObject> OnSpawn;
 
-        [Header("Timer")]
-        public Timer timer;
+        [Header("")]
+        public Timer difficultyTimer;
+        public float increaseTime;
+        public float increaseIntervals;
+        public float limit;
+
+        [Header("Spawn Timer")]
+        public Timer spawnTimer;
         [Range(0.1f, 30)] public float SpawnTime;
 
         [Header("Lists")]
         public List<GameObject> PrefabList = new();
         public List<Transform> SpawnList = new();
-        [SerializeField] List<GameObject> SpawnedObjects = new();
+        List<GameObject> SpawnedObjects = new();
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,17 +33,32 @@ namespace Glorp
         {
             GameManager.OnGameEnd += Shutdown;
 
-            if (!timer) { timer = GetComponent<Timer>(); }
+            if (!spawnTimer) { spawnTimer = GetComponent<Timer>(); }
 
-            timer.Resets = true;
-            timer.OnTime += SpawnRandom;
-            timer.Time = SpawnTime;
+            spawnTimer.Resets = true;
+            spawnTimer.OnTime += SpawnRandom;
+            spawnTimer.Time = SpawnTime;
+
+            if (difficultyTimer)
+            {
+                difficultyTimer.Resets = true;
+                difficultyTimer.OnTime += IncreaseDifficulty;
+                difficultyTimer.Time = increaseTime;
+            }
+
             StartTimer();
+        }
+
+        void IncreaseDifficulty()
+        {
+            if (spawnTimer.Time <= limit) { difficultyTimer.ForceStop(); Debug.Log($"{difficultyTimer.name}: Limit reached, stopping."); }
+            spawnTimer.Time -= increaseIntervals;
+            if (spawnTimer.Time <= limit) { difficultyTimer.ForceStop(); Debug.Log($"{difficultyTimer.name}: Limit reached, stopping."); }
         }
 
         private void Shutdown()
         {
-            timer.ForceStop();
+            spawnTimer.ForceStop();
             gameObject.SetActive(false);
         }
 
@@ -97,7 +118,9 @@ namespace Glorp
 
         public void StartTimer()
         {
-            if (PrefabList.Count > 0 && SpawnList.Count > 0) { StartCoroutine(timer.StartTimer()); }            
+            if (PrefabList.Count > 0 && SpawnList.Count > 0) { StartCoroutine(spawnTimer.StartTimer()); }
+            
+            if (difficultyTimer) { StartCoroutine(difficultyTimer.StartTimer()); }
         }
     }
 

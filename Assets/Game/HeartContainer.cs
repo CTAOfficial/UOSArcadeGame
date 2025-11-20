@@ -28,6 +28,10 @@ namespace Glorp
             Life.OnDamaged += UpdateHearts;
             CreateHearts();
         }
+        void OnDestroy()
+        {
+            Life.OnDamaged -= UpdateHearts;
+        }
 
         void CreateHearts()
         {
@@ -83,6 +87,7 @@ namespace Glorp
                     break;
             }
         }*/
+    
     }
 
 }

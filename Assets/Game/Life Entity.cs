@@ -1,6 +1,8 @@
 using System;
 using Glorp.Combat;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 
 namespace Glorp
@@ -13,6 +15,8 @@ namespace Glorp
         [SerializeField] int _health = 1;
 
         public int ScoreValue = 100;
+        public AudioResource DeathSound;
+        public AudioSource AudioSource;
 
         public bool CanBeDamaged { get => _canBeDamaged; private set => _canBeDamaged = value; }
         [SerializeField] bool _canBeDamaged = true;
@@ -27,12 +31,7 @@ namespace Glorp
         void Start()
         {
             OnCreated?.Invoke(this);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            GameManager.OnGameEnd += Die;
         }
 
         public bool TryDamage(int damage)
@@ -46,10 +45,14 @@ namespace Glorp
         public void ForceDamage(int damage) => Damage(damage);
         protected virtual void Damage(int damage)
         {
+            if (AudioSource && AudioSource.resource) { AudioSource.Play(); }
             Health -= damage;
             OnDamaged?.Invoke(this);
 
-            if (Health <= 0) { Die(); }
+            if (Health <= 0) 
+            { 
+                Die(); 
+            }
         }
 
         public void Kill(GameObject killer = null)
@@ -57,11 +60,30 @@ namespace Glorp
             Die();
         }
 
-        void Die()
+        protected virtual void Die()
         {
+            GameManager.OnGameEnd -= Die;
             OnDeath?.Invoke(this);
             Destroy(gameObject);
         }
         
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(LifeEntity))]
+    public class EntityLifeEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            LifeEntity script = (LifeEntity)target;
+
+            if (GUILayout.Button("Kill"))
+            {
+                script.Kill();
+            }
+        }
+    }
+#endif
 }

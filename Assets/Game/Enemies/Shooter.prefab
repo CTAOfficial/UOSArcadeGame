@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6908304293a0ef74b929daf1768bbe2f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ef1ae43dd4acb343a6ab5ef375ce2ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7474801277929787273}
   m_Layer: 0
   m_Name: Shooter
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   _maxHealth: 1
   _health: 1
   ScoreValue: 100
+  DeathSound: {fileID: 8300000, guid: 3612dbb49b80aae4c8c77028db8cc976, type: 3}
   _canBeDamaged: 1
   IsPlayer: 0
   weapon: {fileID: 1392700566022746703}
@@ -147,7 +148,6 @@ MonoBehaviour:
   fireCooldown: 2
   Range: 4
   Speed: 1
-  canFire: 1
   rotationSpeed: 50
 --- !u!58 &7474801277929787273
 CircleCollider2D:
@@ -195,6 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4874874532325100768}
   - component: {fileID: 1392700566022746703}
+  - component: {fileID: 2611466346937526911}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -232,3 +233,17 @@ MonoBehaviour:
   User: {fileID: 3892712156484458183}
   projectile: {fileID: 2356438910410239638, guid: 097c2ccade469464a9157a000f370741, type: 3}
   firePoint: {fileID: 4874874532325100768}
+  FireSound: {fileID: 0}
+  cooldown: 0.5
+--- !u!114 &2611466346937526911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605524668692346085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fc9092aeab64c45938d63b87ab8092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Glorp.Timer

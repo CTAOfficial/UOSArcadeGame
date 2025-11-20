@@ -2,6 +2,7 @@ using Glorp;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Player : MonoBehaviour
     public Weapon weapon;
     public float weaponRotationSpeed;
 
-    [Header("Weapon")]
+    [Header("Shield")]
     public Shield shield;
     public float shieldRotationSpeed;
 
@@ -36,33 +37,34 @@ public class Player : MonoBehaviour
     {
         HandleWeapon();
         HandleShield();
-        
     }
 
     void HandleWeapon()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Gamepad.current.leftStick.left.isPressed)
         {
             Move(weapon.transform, new(0, 0, 1), weaponRotationSpeed);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) || Gamepad.current.leftStick.right.isPressed)
         {
             Move(weapon.transform, new(0, 0, -1), weaponRotationSpeed);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.aButton.wasPressedThisFrame)
         {
-            weapon.Attack();
+            weapon.TryAttack();
         }
     }
     void HandleShield()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Gamepad.current.rightStick.left.isPressed)
         {
+            //Move(shield.transform, new(0, 0, 1), weaponRotationSpeed);
             Move(shield.transform, new(0, 0, 1), weaponRotationSpeed);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) || Gamepad.current.rightStick.right.isPressed )
         {
+            //Move(shield.transform, new(0, 0, -1), weaponRotationSpeed);
             Move(shield.transform, new(0, 0, -1), weaponRotationSpeed);
         }
     }
@@ -70,7 +72,6 @@ public class Player : MonoBehaviour
 
     void OnDamage(LifeEntity entity)
     {
-        //.. hearts
         StartCoroutine(FlashCircle());
     }
 
