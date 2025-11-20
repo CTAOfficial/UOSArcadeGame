@@ -5,31 +5,61 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 
-namespace Blazers
+namespace Glorp
 {
     [RequireComponent(typeof(Timer))]
     public sealed class Spawner : MonoBehaviour
     {
         public event Action<GameObject> OnSpawn;
 
-        [Header("Timer")]
-        public Timer timer;
+        [Header("")]
+        public Timer difficultyTimer;
+        public float increaseTime;
+        public float increaseIntervals;
+        public float limit;
+
+        [Header("Spawn Timer")]
+        public Timer spawnTimer;
         [Range(0.1f, 30)] public float SpawnTime;
 
         [Header("Lists")]
         public List<GameObject> PrefabList = new();
         public List<Transform> SpawnList = new();
-        [SerializeField] List<GameObject> SpawnedObjects = new();
+        List<GameObject> SpawnedObjects = new();
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            if (!timer) { timer = GetComponent<Timer>(); }
+            GameManager.OnGameEnd += Shutdown;
 
-            timer.OnTime += SpawnRandom;
-            timer.Time = SpawnTime;
+            if (!spawnTimer) { spawnTimer = GetComponent<Timer>(); }
+
+            spawnTimer.Resets = true;
+            spawnTimer.OnTime += SpawnRandom;
+            spawnTimer.Time = SpawnTime;
+
+            if (difficultyTimer)
+            {
+                difficultyTimer.Resets = true;
+                difficultyTimer.OnTime += IncreaseDifficulty;
+                difficultyTimer.Time = increaseTime;
+            }
+
             StartTimer();
+        }
+
+        void IncreaseDifficulty()
+        {
+            if (spawnTimer.Time <= limit) { difficultyTimer.ForceStop(); Debug.Log($"{difficultyTimer.name}: Limit reached, stopping."); }
+            spawnTimer.Time -= increaseIntervals;
+            if (spawnTimer.Time <= limit) { difficultyTimer.ForceStop(); Debug.Log($"{difficultyTimer.name}: Limit reached, stopping."); }
+        }
+
+        private void Shutdown()
+        {
+            spawnTimer.ForceStop();
+            gameObject.SetActive(false);
         }
 
         GameObject GetRandomPrefab()
@@ -88,7 +118,9 @@ namespace Blazers
 
         public void StartTimer()
         {
-            if (PrefabList.Count > 0 && SpawnList.Count > 0) { StartCoroutine(timer.StartTimer()); }            
+            if (PrefabList.Count > 0 && SpawnList.Count > 0) { StartCoroutine(spawnTimer.StartTimer()); }
+            
+            if (difficultyTimer) { StartCoroutine(difficultyTimer.StartTimer()); }
         }
     }
 

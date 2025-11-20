@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using static UnityEngine.GraphicsBuffer;
 
 
-namespace Blazers.Enemies
+namespace Glorp.Enemies
 {
     public class Enemy : LifeEntity
     {
@@ -13,13 +14,19 @@ namespace Blazers.Enemies
         public float fireCooldown;
         public float Range;
         public float Speed;
-        public bool canFire;
         public float rotationSpeed = 5;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            Target = FindFirstObjectByType<Player>().transform;
+            if (Player.Instance) { Target = Player.Instance.transform; }
+            OnCreated?.Invoke(this);
+            GameManager.OnGameEnd += Die;
+
+            if (weapon)
+            {
+                weapon.cooldown = fireCooldown;
+            }
         }
 
         // Update is called once per frame
@@ -38,7 +45,7 @@ namespace Blazers.Enemies
                     return;
                 }
 
-                if (CheckTargetIsInView() && canFire) { TryAttack(); }
+                if (CheckTargetIsInView()) { TryAttack(); }
                 
             }
         }
@@ -84,18 +91,12 @@ namespace Blazers.Enemies
         }
         void TryAttack()
         {
-            if (weapon && canFire)
+            if (weapon && weapon.CanFire)
             {
-                weapon.Attack();
-                canFire = false;
-                StartCoroutine(Cooldown());
+                weapon.TryAttack();
             }
         }
-        IEnumerator Cooldown()
-        {
-            yield return new WaitForSeconds(fireCooldown);
-            canFire = true;
-        }
+
 
         private void OnDrawGizmosSelected()
         {

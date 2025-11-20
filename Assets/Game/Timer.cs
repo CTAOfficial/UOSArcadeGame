@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Blazers
+namespace Glorp
 {
     public sealed partial class Timer : MonoBehaviour
     {
@@ -16,6 +16,7 @@ namespace Blazers
             {
                 _time = value;
                 _startTime = _time;
+                Debug.Log($"{name}: Time set to {Time}");
             }
         }
         float _time;
@@ -26,6 +27,7 @@ namespace Blazers
 
         public IEnumerator StartTimer()
         {
+            enabled = true;
             _timer = Time;
             yield return new WaitForSeconds(_timer);
             EndTimer();
@@ -39,7 +41,16 @@ namespace Blazers
             { 
                 _timer = _startTime; 
                 StartCoroutine(StartTimer());
+                return;
             }
+            ForceStop();
+        }
+
+        public void ForceStop()
+        {
+            StopCoroutine(StartTimer());
+            Resets = false;
+            enabled = false;
         }
     }
 }

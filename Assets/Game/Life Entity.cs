@@ -1,18 +1,28 @@
 using System;
-using Blazers.Combat;
+using Glorp.Combat;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 
-namespace Blazers
+namespace Glorp
 {
     public class LifeEntity : MonoBehaviour, IDamageable, IKillable
     {
+        public int MaxHealth { get => _maxHealth; private set => _maxHealth = value; }
+        [SerializeField] int _maxHealth = 1;
         public int Health { get => _health; private set => _health = value; }
         [SerializeField] int _health = 1;
 
+        public int ScoreValue = 100;
+        public AudioResource DeathSound;
+        public AudioSource AudioSource;
+
         public bool CanBeDamaged { get => _canBeDamaged; private set => _canBeDamaged = value; }
         [SerializeField] bool _canBeDamaged = true;
+        public bool IsPlayer;
 
+        public static Action<LifeEntity> OnCreated;
         public event Action<LifeEntity> OnDamaged;
         public event Action<LifeEntity> OnDeath;
 
@@ -20,13 +30,8 @@ namespace Blazers
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            OnCreated?.Invoke(this);
+            GameManager.OnGameEnd += Die;
         }
 
         public bool TryDamage(int damage)
@@ -40,10 +45,14 @@ namespace Blazers
         public void ForceDamage(int damage) => Damage(damage);
         protected virtual void Damage(int damage)
         {
+            if (AudioSource && AudioSource.resource) { AudioSource.Play(); }
             Health -= damage;
             OnDamaged?.Invoke(this);
 
-            if (Health <= 0) { Die(); }
+            if (Health <= 0) 
+            { 
+                Die(); 
+            }
         }
 
         public void Kill(GameObject killer = null)
@@ -51,11 +60,30 @@ namespace Blazers
             Die();
         }
 
-        void Die()
+        protected virtual void Die()
         {
+            GameManager.OnGameEnd -= Die;
             OnDeath?.Invoke(this);
             Destroy(gameObject);
         }
         
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(LifeEntity))]
+    public class EntityLifeEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            LifeEntity script = (LifeEntity)target;
+
+            if (GUILayout.Button("Kill"))
+            {
+                script.Kill();
+            }
+        }
+    }
+#endif
 }

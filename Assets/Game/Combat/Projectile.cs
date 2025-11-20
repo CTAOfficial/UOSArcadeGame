@@ -1,5 +1,5 @@
 using System.Collections;
-using Blazers.Combat;
+using Glorp.Combat;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -13,8 +13,14 @@ public class Projectile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameManager.OnGameEnd += () => Destroy(gameObject);
+
         if (!rb) { rb = GetComponent<Rigidbody2D>();}
         StartCoroutine(Cull());
+    }
+    void OnDestroy()
+    {
+        GameManager.OnGameEnd -= () => Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -25,7 +31,11 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable damageable) && damageable != Creator)
+        // check if creator exists still and store the tag
+        if (collision.TryGetComponent(out IDamageable damageable) && 
+            damageable != Creator &&
+            damageable.tag != Creator.tag
+            )
         {
             if (damageable.TryDamage(damage))
             {

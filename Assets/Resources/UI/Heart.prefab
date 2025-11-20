@@ -58,7 +58,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a750198ea321734419b936f32ece14f8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80b044526269492418aff3108c8b3ab7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,3 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Blazers.UI.Heart
   Image: {fileID: 1806473619388353514}
+  ActiveSprite: {fileID: 21300000, guid: 8e61c3cf05bb1464087faee3d04dc5de, type: 3}
+  LostSprite: {fileID: 21300000, guid: 80b044526269492418aff3108c8b3ab7, type: 3}
+  _state: 0

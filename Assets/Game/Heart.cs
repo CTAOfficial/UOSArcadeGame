@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Blazers.UI
+namespace Glorp.UI
 {
     public enum HeartState
     {
@@ -18,6 +18,9 @@ namespace Blazers.UI
     {
         public Image Image;
 
+        [SerializeField] Sprite ActiveSprite;
+        [SerializeField] Sprite LostSprite;
+
         public HeartState State { get => _state; set => SetState(value); }
         [SerializeField] HeartState _state;
         
@@ -28,13 +31,13 @@ namespace Blazers.UI
             switch (state)
             {
                 case HeartState.Active:
-                    //.. change image
-                    gameObject.SetActive(true);
+                    Image.sprite = ActiveSprite;
+                    Image.color = Color.red;
                     break;
 
                 case HeartState.Lost:
-                    //.. change image
-                    gameObject.SetActive(false);
+                    Image.sprite = LostSprite;
+                    Image.color = Color.gray;
                     break;
             }
         }
