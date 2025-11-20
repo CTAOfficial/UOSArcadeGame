@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Blazers
+namespace Glorp
 {
     public sealed partial class Timer : MonoBehaviour
     {
@@ -40,6 +40,11 @@ namespace Blazers
                 _timer = _startTime; 
                 StartCoroutine(StartTimer());
             }
+        }
+
+        public void ForceStop()
+        {
+            StopCoroutine(StartTimer());
         }
     }
 }

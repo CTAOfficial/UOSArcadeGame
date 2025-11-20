@@ -3,7 +3,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 
-namespace Blazers.Enemies
+namespace Glorp.Enemies
 {
     public class Enemy : LifeEntity
     {
@@ -20,6 +20,7 @@ namespace Blazers.Enemies
         void Start()
         {
             Target = FindFirstObjectByType<Player>().transform;
+            OnCreated?.Invoke(this);
         }
 
         // Update is called once per frame

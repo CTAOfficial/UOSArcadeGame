@@ -5,7 +5,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 
-namespace Blazers
+namespace Glorp
 {
     [RequireComponent(typeof(Timer))]
     public sealed class Spawner : MonoBehaviour
@@ -25,11 +25,20 @@ namespace Blazers
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            GameManager.OnGameEnd += Shutdown;
+
             if (!timer) { timer = GetComponent<Timer>(); }
 
+            timer.Resets = true;
             timer.OnTime += SpawnRandom;
             timer.Time = SpawnTime;
             StartTimer();
+        }
+
+        private void Shutdown()
+        {
+            timer.ForceStop();
+            gameObject.SetActive(false);
         }
 
         GameObject GetRandomPrefab()

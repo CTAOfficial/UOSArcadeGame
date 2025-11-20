@@ -1,63 +1,88 @@
-using Blazers;
-using Blazers.UI;
 using System.Collections.Generic;
+using Glorp.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeartContainer : MonoBehaviour
+
+namespace Glorp
 {
-    public static GameObject HeartPrefab;
-
-    public List<Heart> Hearts = new();
-
-    public LifeEntity Life;
-    public GridLayoutGroup Grid;
-
-    void Start()
+    public class HeartContainer : MonoBehaviour
     {
-        if (!HeartPrefab) { HeartPrefab = Resources.Load<GameObject>("UI/Heart"); }
+        public static GameObject HeartPrefab;
 
-        Life.OnDamaged += UpdateHearts;
-        CreateHearts();
-    }
+        public List<Heart> Hearts = new();
+        List<Heart> ActiveHearts = new();
+        Queue<Heart> LostHearts = new();
 
-    void CreateHearts()
-    {
-        for (int i = 0; i < Life.Health; i++)
+        public LifeEntity Life;
+        public GridLayoutGroup Grid;
+
+        int lostIndex;
+
+
+        void Start()
         {
-            CreateHeart();
+            if (!HeartPrefab) { HeartPrefab = Resources.Load<GameObject>("UI/Heart"); }
+
+            Life.OnDamaged += UpdateHearts;
+            CreateHearts();
         }
-        //UpdateHearts(Life);
-    }
-    public void UpdateHearts(LifeEntity life)
-    {
-        if (life.Health != Hearts.Count)
+
+        void CreateHearts()
         {
-            int difference = Hearts.Count - life.Health;
-            HeartState state;
+            if (Life.Health > Hearts.Count)
+            {
+                int diff = Life.Health - Hearts.Count;
 
-            if (difference > life.Health)
-            {
-                state = HeartState.Active;
-            }
-            else
-            {
-                state = HeartState.Lost;
-            }
-
-            for (int i = 1; i < difference; i++)
-            {
-                UpdateHeart(Hearts.Count - i, state);
+                for (int i = 0; i < diff; i++) { CreateHeart(); }
             }
         }
+        public void UpdateHearts(LifeEntity life)
+        {
+            // CreateHearts();
+
+            if (life.Health != Hearts.Count)
+            {
+                int diff = life.MaxHealth - life.Health;
+
+                for (int i = 0; i < diff; i++)
+                {
+                    UpdateHeart(i, HeartState.Lost);
+                }
+            }
+        }
+        void UpdateHeart(int index, HeartState state)
+        {
+            Hearts[index].State = state;
+        }
+
+        void CreateHeart()
+        {
+            Heart heart = Instantiate(HeartPrefab, transform).GetComponent<Heart>();
+            heart.State = HeartState.Active;
+
+            Hearts.Add(heart);
+            //ActiveHearts.Enqueue(heart);
+        }
+        /*void UpdateHeart(HeartState state)
+        {
+            Hearts[index].State = state;
+
+            switch (state)
+            {
+                case HeartState.Active:
+                    if (LostHearts.TryDequeue(out Heart heart))
+                    {
+                        ActiveHearts.Enqueue(heart);
+                    }
+                    break;
+                case HeartState.Lost:
+                    ActiveHearts.Dequeue();
+                    LostHearts.Enqueue(heart);
+                    break;
+            }
+        }*/
     }
-    void CreateHeart()
-    {
-        Heart heart = Instantiate(HeartPrefab, transform).GetComponent<Heart>();
-        Hearts.Add(heart);
-    }
-    void UpdateHeart(int index, HeartState state)
-    {
-        Hearts[index].State = state;
-    }
+
 }

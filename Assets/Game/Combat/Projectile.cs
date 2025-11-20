@@ -1,5 +1,5 @@
 using System.Collections;
-using Blazers.Combat;
+using Glorp.Combat;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour

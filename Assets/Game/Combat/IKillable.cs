@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace Blazers.Combat
+namespace Glorp.Combat
 {
     public interface IKillable
     {
