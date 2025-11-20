@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        HandleWeapon();
-        HandleShield();
+        if (weapon) { HandleWeapon(); }
+        if (shield) { HandleShield(); }
     }
     void OnDestroy()
     {
@@ -50,28 +50,28 @@ public class Player : MonoBehaviour
 
     void HandleWeapon()
     {
-        if (Input.GetKey(KeyCode.A) || Gamepad.current.leftStick.left.isPressed)
+        if (Input.GetKey(KeyCode.A) || (Gamepad.current != null && Gamepad.current.leftStick.left.isPressed))
         {
             Move(weapon.transform, new(0, 0, 1), weaponRotationSpeed);
         }
-        else if (Input.GetKey(KeyCode.D) || Gamepad.current.leftStick.right.isPressed)
+        else if (Input.GetKey(KeyCode.D) || (Gamepad.current != null && Gamepad.current.leftStick.right.isPressed))
         {
             Move(weapon.transform, new(0, 0, -1), weaponRotationSpeed);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.aButton.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.aButton.wasPressedThisFrame))
         {
             weapon.TryAttack();
         }
     }
     void HandleShield()
     {
-        if (Input.GetKey(KeyCode.LeftArrow) || Gamepad.current.rightStick.left.isPressed)
+        if (Input.GetKey(KeyCode.LeftArrow) || (Gamepad.current != null && Gamepad.current.rightStick.left.isPressed))
         {
             //Move(shield.transform, new(0, 0, 1), weaponRotationSpeed);
             Move(shield.transform, new(0, 0, 1), weaponRotationSpeed);
         }
-        else if (Input.GetKey(KeyCode.RightArrow) || Gamepad.current.rightStick.right.isPressed )
+        else if (Input.GetKey(KeyCode.RightArrow) || (Gamepad.current != null && Gamepad.current.rightStick.right.isPressed))
         {
             //Move(shield.transform, new(0, 0, -1), weaponRotationSpeed);
             Move(shield.transform, new(0, 0, -1), weaponRotationSpeed);
