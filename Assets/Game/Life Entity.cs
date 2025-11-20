@@ -77,7 +77,7 @@ namespace Glorp
         {
             base.OnInspectorGUI();
 
-            var script = (LifeEntity)target;
+            LifeEntity script = (LifeEntity)target;
 
             if (GUILayout.Button("Kill"))
             {
